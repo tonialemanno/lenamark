@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save the Date - Mark und Lena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        /* Hochzeitsgerechte CSS-Stile für das Layout */
+        body {
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f3f3;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3em;
+            color: #333;
+        }
+        .date, .countdown {
+            font-size: 1.5em;
+            color: #666;
+            margin: 20px 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .message {
+            font-size: 1.2em;
+            color: #555;
+            font-family: 'Playfair Display', serif;
+        }
+        .divider {
+            margin: 20px auto;
+            width: 60px;
+            height: 2px;
+            background-color: #ccc;
+        }
+        .footer {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Playfair Display', serif;
+        }
+        .yes {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .no {
+            background-color: #f44336;
+            color: white;
+        }
+        .input-name {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1em;
+            width: calc(100% - 24px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mark & Lena</h1>
+        <img src="26959-NWFPYY.jpg" alt="Brautpaar" style="width:100%; border-radius: 8px; margin-top: 20px;">
+        <div class="divider"></div>
+        <p class="date">Samstag, den 20. September 2025</p>
+        <p class="countdown" id="countdown">Noch 0 Tage</p>
+        <p class="message">Bitte haltet euch diesen Tag frei. Die Einladung folgt bald!</p>
+
+        <!-- Adresse -->
+        <p class="message">Ort: Hundeverein 1, 79331 Teningen, Deutschland</p>
+
+        <!-- Map Link -->
+        <a href="https://www.google.com/maps/search/?api=1&query=Hundeverein+1,+79331+Teningen,+Deutschland" target="_blank">
+            <button style="margin-top:20px; padding: 10px 20px; font-size: 1em;">Wegbeschreibung öffnen</button>
+        </a>
+
+        <!-- Mehrere Namen Eingabe -->
+        <div id="nameFields">
+            <input type="text" class="input-name" placeholder="Dein Name (mit Begleitung)">
+        </div>
+        <button onclick="addNameField()">+ Weitere Person hinzufügen</button>
+
+        <!-- Teilnahme Buttons -->
+        <button class="yes" onclick="respondYes()">Ja, wir kommen</button>
+        <button class="no" onclick="respondNo()">Nein, leider nicht</button>
+
+        <div class="footer">Wir freuen uns auf diesen besonderen Tag mit euch!</div>
+    </div>
+
+    <script>
+        // Countdown-Timer
+        function countdownTimer() {
+            const eventDate = new Date('2025-09-20').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("countdown").innerHTML = days > 0 ? `Noch ${days} Tage` : "Heute ist der große Tag!";
+        }
+        setInterval(countdownTimer, 1000);
+
+        // Weitere Person hinzufügen
+        function addNameField() {
+            const nameFields = document.getElementById("nameFields");
+            const newField = document.createElement("input");
+            newField.type = "text";
+            newField.className = "input-name";
+            newField.placeholder = "Zusätzlicher Name";
+            nameFields.appendChild(newField);
+        }
+
+        // Teilnahme-Buttons
+        function respondYes() {
+            const namesArray = getNames();
+            if (namesArray.length > 0) {
+                const message = namesArray.length > 1 
+                    ? `${namesArray.join(', ')} freuen sich darauf, dabei zu sein!` 
+                    : `${namesArray[0]} freut sich darauf, dabei zu sein!`;
+                alert(message);
+            } else {
+                alert("Bitte mindestens einen Namen eingeben.");
+            }
+        }
+
+        function respondNo() {
+            const namesArray = getNames();
+            if (namesArray.length > 0) {
+                const message = namesArray.length > 1 
+                    ? `${namesArray.join(', ')} können leider nicht teilnehmen.` 
+                    : `${namesArray[0]} kann leider nicht teilnehmen.`;
+                alert(message);
+            } else {
+                alert("Bitte mindestens einen Namen eingeben.");
+            }
+        }
+
+        // Helper function to collect names
+        function getNames() {
+            const nameFields = document.querySelectorAll(".input-name");
+            let namesArray = [];
+            nameFields.forEach(field => {
+                if (field.value.trim()) namesArray.push(field.value.trim());
+            });
+            return namesArray;
+        }
+    </script>
+</body>
+</html>
